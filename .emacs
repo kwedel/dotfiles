@@ -60,10 +60,10 @@ There are two things you can do about this warning:
 
 ;; Multiple cursors
 (require 'multiple-cursors)
-(global-set-key (kbd "C-c C-m e") 'mc/edit-lines)
-(global-set-key (kbd "C-c C-m n") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-c C-m p") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-m a") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-S-m e") 'mc/edit-lines)
+(global-set-key (kbd "C-S-m n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-m p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-S-m a") 'mc/mark-all-like-this)
 
 ;; Easy-repeat
 (require 'easy-repeat)
@@ -85,6 +85,12 @@ There are two things you can do about this warning:
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-enabled-themes (quote (tango-dark)))
+ '(easy-repeat-command-list
+   (quote
+    (other-window org-previous-visible-heading org-next-visible-heading org-forward-heading-same-level org-backward-heading-same-level outline-up-heading outline-next-visible-heading outline-previous-visible-heading outline-forward-same-level outline-backward-same-level git-gutter:previous-hunk git-gutter:next-hunk mc/mark-next-like-this mc/mark-previous-like-this)))
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/Org/inbox.org" "~/Dropbox/Org/tickler.org")))
  '(package-selected-packages
    (quote
     (easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex))))
