@@ -88,9 +88,6 @@ There are two things you can do about this warning:
  '(easy-repeat-command-list
    (quote
     (other-window org-previous-visible-heading org-next-visible-heading org-forward-heading-same-level org-backward-heading-same-level outline-up-heading outline-next-visible-heading outline-previous-visible-heading outline-forward-same-level outline-backward-same-level git-gutter:previous-hunk git-gutter:next-hunk mc/mark-next-like-this mc/mark-previous-like-this)))
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/Org/inbox.org" "~/Dropbox/Org/tickler.org")))
  '(package-selected-packages
    (quote
     (easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex))))
