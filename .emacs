@@ -60,10 +60,10 @@ There are two things you can do about this warning:
 
 ;; Multiple cursors
 (require 'multiple-cursors)
-(global-set-key (kbd "C-S-m e") 'mc/edit-lines)
-(global-set-key (kbd "C-S-m n") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-S-m p") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-S-m a") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-S-c e") 'mc/edit-lines)
+(global-set-key (kbd "C-S-c n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-c p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-S-c a") 'mc/mark-all-like-this)
 
 ;; Easy-repeat
 (require 'easy-repeat)
@@ -87,7 +87,7 @@ There are two things you can do about this warning:
  '(custom-enabled-themes (quote (tango-dark)))
  '(easy-repeat-command-list
    (quote
-    (other-window org-previous-visible-heading org-next-visible-heading org-forward-heading-same-level org-backward-heading-same-level outline-up-heading outline-next-visible-heading outline-previous-visible-heading outline-forward-same-level outline-backward-same-level git-gutter:previous-hunk git-gutter:next-hunk mc/mark-next-like-this mc/mark-previous-like-this)))
+    (other-window org-previous-visible-heading  mc/mark-next-like-this mc/mark-previous-like-this)))
  '(package-selected-packages
    (quote
     (easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex))))
