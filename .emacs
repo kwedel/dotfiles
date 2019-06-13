@@ -36,7 +36,7 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
-;;(add-hook 'org-mode 'org-indent-mode)
+(add-hook 'org-mode 'org-indent-mode)
 (add-hook 'auto-save-hook 'org-save-all-org-buffers)
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
@@ -54,9 +54,17 @@ There are two things you can do about this warning:
                                "* %i%? \n %U")))
 
 ;; Setup refile
-(setq org-refile-targets '(("~/Dropbox/Org/gtd.org" :maxlevel . 1)
-                           ("~/Dropbox/Org/someday.org" :level . 2)
+;(setq org-completion-use-ido t)
+;(setq org-outline-path-complete-in-steps t)
+(setq org-refile-use-outline-path 1)
+(setq org-refile-targets '(("~/Dropbox/Org/gtd.org" :maxlevel . 2)
+                           ("~/Dropbox/Org/someday.org" :maxlevel . 2)
+			   ("~/Dropbox/Org/refs.org" :maxlevel . 3)
                            ("~/Dropbox/Org/tickler.org" :maxlevel . 1)))
+
+;; Other org
+(setq org-agenda-text-search-extra-files '(agenda-archives)) ; Search archive
+(setq org-blank-before-new-entry (quote ((heading) (plain-list-item)))) ; Blank lines
 
 ;; Multiple cursors
 (require 'multiple-cursors)
@@ -87,10 +95,10 @@ There are two things you can do about this warning:
  '(custom-enabled-themes (quote (tango-dark)))
  '(easy-repeat-command-list
    (quote
-    (other-window org-previous-visible-heading  mc/mark-next-like-this mc/mark-previous-like-this)))
+    (other-window org-previous-visible-heading mc/mark-next-like-this mc/mark-previous-like-this)))
  '(package-selected-packages
    (quote
-    (easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex))))
+    (use-package easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
