@@ -37,6 +37,7 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c c") 'org-capture)
 
 (add-hook 'org-mode 'org-indent-mode)
+(add-hook 'org-mode 'visual-line-mode)
 (add-hook 'auto-save-hook 'org-save-all-org-buffers)
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
