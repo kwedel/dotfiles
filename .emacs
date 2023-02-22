@@ -23,11 +23,19 @@ There are two things you can do about this warning:
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch)
+(global-set-key (kbd "C-c g") 'magit-file-dispatch)
 
 ;; Elpy
 (elpy-enable)
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "-i --simple-prompt")
+;; Auto fromat code on save
+(add-hook 'elpy-mode-hook (lambda ()
+			    (add-hook 'before-save-hook
+				      'elpy-black-fix-code nil t)))
+
+;; Dockerfile-mode
+(require 'dockerfile-mode)
 
 ;; Projectile
 (projectile-mode +1)
@@ -121,7 +129,7 @@ There are two things you can do about this warning:
  '(elpy-test-runner (quote elpy-test-pytest-runner))
  '(package-selected-packages
    (quote
-    (projectile visual-regexp visual-regexp-steroids writeroom-mode markdown-mode elpy yaml-mode use-package easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex)))
+    (tide elfeed dockerfile-mode projectile visual-regexp visual-regexp-steroids writeroom-mode markdown-mode elpy yaml-mode use-package easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex)))
  '(vr/command-python
    "python3 /home/sg4l/.emacs.d/elpa/visual-regexp-steroids-20170222.253/regexp.py")
  '(vr/engine (quote python)))
