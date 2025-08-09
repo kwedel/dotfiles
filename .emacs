@@ -1,4 +1,8 @@
 (require 'package)
+
+(eval-when-compile 'use-package)
+(require 'use-package)
+
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -19,20 +23,52 @@ There are two things you can do about this warning:
 
 (ido-mode t)
 (tool-bar-mode 0)
+(global-display-line-numbers-mode 1)
+(recentf-mode 1) ; Recent files
+(save-place-mode 1) ; Remember position in files
+(global-auto-revert-mode 1) ; Automatically revert files when changed on disk
+
+;; Undo-tree
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  :bind (("C-x C-u" . undo-tree-visualize)
+	 :map undo-tree-map
+	 ("C-x u" . undo-tree-undo)
+	 )
+  )
+
+;; Smerge
+(setq smerge-command-prefix "\C-cv")
 
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch)
-(global-set-key (kbd "C-c g") 'magit-file-dispatch)
+(global-set-key (kbd "C-c g") 'magit-dispatch)
+(global-set-key (kbd "C-c f") 'magit-file-dispatch)
 
 ;; Elpy
 (elpy-enable)
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "-i --simple-prompt")
-;; Auto fromat code on save
+;; Auto format code on save
 (add-hook 'elpy-mode-hook (lambda ()
 			    (add-hook 'before-save-hook
 				      'elpy-black-fix-code nil t)))
+
+;; GPTel
+(use-package gptel
+  :ensure t
+  :config
+  (setq
+   gptel-model 'qwen2.5-coder:14b-instruct-q2_K
+   gptel-backend (gptel-make-ollama "Ollama"
+                                      :host "localhost:11434"
+                                      :stream t
+                                      :models '(qwen2.5-coder:14b-instruct-q2_K llama3.2:latest)))
+  :bind ("C-c <RET>" . gptel-send))
+(global-set-key (kbd "C-c RET") 'gptel-send)
+
+
 
 ;; Dockerfile-mode
 (require 'dockerfile-mode)
@@ -57,8 +93,9 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c c") 'org-capture)
 
 ;; (add-hook 'org-mode 'org-indent-mode)
-(setq org-startup-indented t)
-(add-hook 'org-mode 'visual-line-mode)
+(with-eval-after-load 'org       
+  (setq org-startup-indented t) ; Enable `org-indent-mode' by default
+  (add-hook 'org-mode-hook 'visual-line-mode))
 (add-hook 'auto-save-hook 'org-save-all-org-buffers)
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
@@ -66,6 +103,7 @@ There are two things you can do about this warning:
 (setq org-agenda-files '("~/Dropbox/Org/inbox.org"
                          "~/Dropbox/Org/gtd.org"
                          "~/Dropbox/Org/tickler.org"))
+(setq org-agenda-files '("/mnt/c/Users/SG4L/OneDrive - Københavns Kommune/org/todo.org"))
 
 ;; Setup capture
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
@@ -87,6 +125,7 @@ There are two things you can do about this warning:
 ;; Other org
 (setq org-agenda-text-search-extra-files '(agenda-archives)) ; Search archive
 (setq org-blank-before-new-entry (quote ((heading) (plain-list-item)))) ; Blank lines
+
 
 ;; Visual-regexp-steroids
 (require 'visual-regexp-steroids)
@@ -121,21 +160,27 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (tango-dark)))
+ '(custom-enabled-themes '(tango-dark))
  '(easy-repeat-command-list
-   (quote
-    (other-window org-previous-visible-heading mc/mark-next-like-this mc/mark-previous-like-this)))
+   '(other-window org-previous-visible-heading mc/mark-next-like-this mc/mark-previous-like-this))
  '(elpy-rpc-python-command "python3")
- '(elpy-test-runner (quote elpy-test-pytest-runner))
+ '(elpy-test-runner 'elpy-test-pytest-runner)
+ '(gptel-directives
+   '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
+     (programming . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
+     (python . "You are a large language model and a careful Python programmer. Provide code and only code as output without any additional text, prompt or note.")
+     (writing . "You are a large language model and a writing assistant. Respond concisely.")
+     (chat . "You are a large language model and a conversation partner. Respond concisely.")))
+ '(org-babel-load-languages '((python . t) (emacs-lisp . t)))
  '(package-selected-packages
-   (quote
-    (tide elfeed dockerfile-mode projectile visual-regexp visual-regexp-steroids writeroom-mode markdown-mode elpy yaml-mode use-package easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex)))
+   '(typescript-mode toml-mode company undo-tree vundo gptel restclient flymake-ruff pip-requirements tide dockerfile-mode projectile visual-regexp visual-regexp-steroids writeroom-mode markdown-mode elpy yaml-mode use-package easy-repeat easy-kill multiple-cursors magit web-mode smex helm auctex))
  '(vr/command-python
    "python3 /home/sg4l/.emacs.d/elpa/visual-regexp-steroids-20170222.253/regexp.py")
- '(vr/engine (quote python)))
+ '(vr/engine 'python))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'narrow-to-region 'disabled nil)
