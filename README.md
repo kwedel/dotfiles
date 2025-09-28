@@ -2,6 +2,7 @@
 * atuin
 * bat
 * tldr
+* fzf
 * uv
   * httpie
   * llm
