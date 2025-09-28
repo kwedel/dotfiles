@@ -1,0 +1,14 @@
+# Tools
+* atuin
+* bat
+* tldr
+* uv
+  * httpie
+  * llm
+  * files-to-prompt
+  * nbdime
+  * ruff
+  * mypy
+  * ddo
+  * ro
+  * unifind
