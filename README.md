@@ -13,3 +13,5 @@
   * ddo
   * ro
   * unifind
+  * dockling
+  * markitdown
