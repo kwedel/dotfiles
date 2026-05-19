@@ -41,7 +41,16 @@
     # Show all branches
     branches = !"git for-each-ref --color --sort=-committerdate --format='%(color:yellow)%(refname:short)%(color:reset) | %(color:green)%(committerdate:iso)%(color:reset) %(subject) %(color:dim white)- %(committername)%(color:reset)' refs/heads refs/remotes | column -t -s'|'"
 
+    # Show recently edited files
     recentchanges = !"git ls-files -z . | xargs -0 -I{} git log -1 --pretty=format:'%ct|{}:|%an|%ar|%h %n' -- {} | sort -nr | cut -d'|' -f2- | column -t -s'|'"
+
+    # Open repo in browser  
+    browse = "!f() { \
+    	  '/mnt/c/Program Files/Internet Explorer/iexplore.exe' `git remote -v \
+          | awk '/fetch/{print $2}' \
+          | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@'` \
+          | head -n1; \
+     }; f"
 
 [protocol "file"]
 	allow = never
@@ -50,7 +59,7 @@
     path = /home/kaare/.gitconfig-personal
 
 [pager]
-	diff = less +/diff\\ --git
-	show = less '+/^diff --git.*$'
+	diff = less +/diff\\ --git +g
+	show = less '+/^diff --git.*$' +g
 ```
 </details>
